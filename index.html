@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bartłomiej Kuś — dev portfolio</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=Inconsolata:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0c0f;
+      --surface:   #111318;
+      --border:    #1e2330;
+      --accent:    #00ffe0;
+      --accent2:   #ff3e6c;
+      --accent3:   #ffe44d;
+      --text:      #c8d0e0;
+      --muted:     #4a5270;
+      --white:     #eef1f8;
+
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Inconsolata', monospace;
+
+      --section-h: 100vh;
+      --dot-size:  10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      /* snap scrolling */
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      scroll-snap-align: start;
+      min-height: var(--section-h);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem clamp(1.5rem, 8vw, 7rem);
+      position: relative;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── SECTION LABELS (top-left corner code comment) ── */
+    section::before {
+      content: attr(data-id);
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      position: absolute;
+      top: 1.4rem; left: clamp(1.5rem, 8vw, 7rem);
+      letter-spacing: .12em;
+    }
+
+    /* ── NAV DOTS (right side) ── */
+    #nav-dots {
+      position: fixed;
+      right: 1.6rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      z-index: 1000;
+    }
+
+    .dot {
+      width: var(--dot-size);
+      height: var(--dot-size);
+      border-radius: 50%;
+      border: 1.5px solid var(--muted);
+      background: transparent;
+      cursor: pointer;
+      transition: background .25s, border-color .25s, transform .25s;
+      position: relative;
+    }
+
+    .dot::after {
+      content: attr(data-label);
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      position: absolute;
+      right: calc(var(--dot-size) + .6rem);
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .2s;
+      pointer-events: none;
+    }
+
+    .dot:hover::after { opacity: 1; }
+
+    .dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.3);
+    }
+
+    /* ── TYPOGRAPHY HELPERS ── */
+    .label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-head);
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(3rem, 6.5vw, 7.5rem); font-weight: 800; }
+    h2 { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 700; }
+    h3 { font-size: 1.25rem; font-weight: 700; }
+
+    .accent  { color: var(--accent); }
+    .accent2 { color: var(--accent2); }
+    .accent3 { color: var(--accent3); }
+
+    .mono { font-family: var(--font-mono); }
+
+    /* ── GLITCH EFFECT ── */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute; inset: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+    }
+    .glitch::before {
+      color: var(--accent2);
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transform: translateX(-4px);
+      animation: glitch-1 3.5s infinite steps(1);
+    }
+    .glitch::after {
+      color: var(--accent);
+      clip-path: polygon(0 55%, 100% 55%, 100% 75%, 0 75%);
+      transform: translateX(4px);
+      animation: glitch-2 3.5s infinite steps(1);
+    }
+    @keyframes glitch-1 {
+      0%,94%  { transform: translateX(0); opacity: 0; }
+      95%     { transform: translateX(-6px); opacity: 1; }
+      97%     { transform: translateX(6px); opacity: 1; }
+      100%    { transform: translateX(0); opacity: 0; }
+    }
+    @keyframes glitch-2 {
+      0%,96%  { transform: translateX(0); opacity: 0; }
+      97%     { transform: translateX(4px); opacity: 1; }
+      99%     { transform: translateX(-4px); opacity: 1; }
+      100%    { transform: translateX(0); opacity: 0; }
+    }
+
+    /* ── SECTION DECORATIVE LINE ── */
+    .h-line {
+      width: 3rem; height: 2px;
+      background: var(--accent);
+      margin: 1.2rem 0;
+    }
+
+    /* ── PLACEHOLDER BOXES ── */
+    .placeholder {
+      border: 1.5px dashed var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      position: relative;
+      margin-top: 1rem;
+    }
+    .placeholder::before {
+      content: '// PLACEHOLDER';
+      position: absolute;
+      top: -.6rem; left: 1rem;
+      background: var(--bg);
+      padding: 0 .4rem;
+      font-size: .65rem;
+      color: var(--accent3);
+    }
+
+    /* ── TAG CHIPS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      padding: .25rem .7rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      cursor: default;
+      transition: color .2s, border-color .2s;
+    }
+    .tag:hover { color: var(--accent); border-color: var(--accent); }
+    .tag.known { color: var(--accent); border-color: var(--accent); opacity: .85; }
+
+    /* ── GRID LAYOUTS ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .25s;
+    }
+    .card:hover::after { transform: scaleX(1); }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--accent3);
+      letter-spacing: .15em;
+      margin-bottom: .5rem;
+    }
+
+    /* ── HERO specific ── */
+    #hero {
+      border-top: none;
+      min-height: 100vh;
+      gap: 0;
+    }
+
+    .hero-pre {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      max-width: 540px;
+      font-family: var(--font-body);
+    }
+
+    .hero-meta {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .hero-meta-item { }
+    .hero-meta-item .key {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .15em;
+      display: block;
+      margin-bottom: .2rem;
+    }
+    .hero-meta-item .val {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: clamp(1.5rem, 8vw, 7rem);
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      animation: blink 2s infinite;
+    }
+    .scroll-hint::before { content: '▾'; color: var(--accent); }
+
+    @keyframes blink {
+      0%,100% { opacity: .6; }
+      50%      { opacity: 1; }
+    }
+
+    /* ── ABOUT ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 680px) { .about-layout { grid-template-columns: 1fr; } }
+
+    .about-text p {
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-size: .95rem;
+    }
+
+    /* ── SKILLS ── */
+    .skill-group { margin-top: 2rem; }
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--accent3);
+      letter-spacing: .18em;
+      margin-bottom: .8rem;
+    }
+
+    /* ── PROJECTS ── */
+    .project-card { display: flex; flex-direction: column; gap: .8rem; }
+    .project-card .proj-tech {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--accent);
+    }
+    .project-card .proj-link {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent2);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s;
+      align-self: flex-start;
+    }
+    .project-card .proj-link:hover { border-color: var(--accent2); }
+
+    /* ── TIMELINE (experience / edu) ── */
+    .timeline { position: relative; margin-top: 2rem; padding-left: 1.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .tl-item { position: relative; margin-bottom: 2.2rem; }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -1.9rem;
+      top: .35rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .tl-date {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      margin-bottom: .3rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      transition: border-color .2s, color .2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-icon { font-size: 1.1rem; }
+
+    /* ── SCANLINE BG deco ── */
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,255,224,.012) 2px,
+        rgba(0,255,224,.012) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── CORNER BRACKET deco ── */
+    .bracket-tl, .bracket-br {
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--border);
+      border-style: solid;
+      opacity: .5;
+    }
+    .bracket-tl { top: 1.2rem; right: 1.5rem; border-width: 1px 0 0 1px; }
+    .bracket-br { bottom: 1.2rem; right: 1.5rem; border-width: 0 1px 1px 0; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV DOTS ═══ -->
+<nav id="nav-dots" aria-label="Sekcje strony"></nav>
+
+<!-- ═══════════════════════════════════════════
+     01 · HERO
+════════════════════════════════════════════ -->
+<section id="sec-hero" data-id="// 01 · intro" data-nav="intro">
+  <div class="scanlines"></div>
+  <div class="bracket-tl"></div>
+  <div class="bracket-br"></div>
+
+  <p class="hero-pre">&gt; hello_world.exe</p>
+
+  <h1>
+    <span class="glitch" data-text="TWOJE_IMIĘ">Bartłomiej_Kuś</span>
+  </h1>
+  <h1 style="font-size:clamp(1.8rem,4vw,3.2rem); font-weight:400; color:var(--muted); margin-top:.4rem;">
+    <span class="accent">//</span> junior developer
+  </h1>
+
+  <div class="h-line"></div>
+
+  <p class="hero-sub placeholder">
+    C++ developer with a background in mechatronics and computer science, focused on systems programming, embedded software, and performance-critical applications. 
+    Passionate about low-level development and its impact in real-world sectors.
+  </p>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="key">LOCALISATION</span>
+      <span class="val mono accent">Wroclaw, PL</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="key">STATUS</span>
+      <span class="val mono" style="color:var(--accent);">open to work ◉</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="key">SPECIALITY</span>
+      <span class="val">C++ / Systems development</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">scroll to explore</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     02 · O MNIE
+════════════════════════════════════════════ -->
+<section id="sec-about" data-id="// 02 · about" data-nav="o mnie">
+  <p class="label">about me</p>
+  <h2>Who <span class="accent">am I</span></h2>
+
+  <div class="about-layout">
+    <div class="about-text">
+      <p class="placeholder">
+        C++ developer candidate with a background in both mechatronics engineering and computer science. My technical path started in vocational school and has been driven by a genuine interest in systems that are fast, precise, and close to the hardware.
+      </p>
+      <p class="placeholder">
+        Alongside systems programming, I work with data — my engineering thesis involved processing and visualising large electromagnetic field datasets using Python, NumPy, and Pandas. I enjoy finding patterns in complex data and turning raw measurements into actionable insight.
+      </p>
+      <p class="placeholder">
+        Outside of code I'm into motorsports, financial markets, hiking in the mountains, and travelling by campervan. I like environments where precision and problem-solving matter — whether that's on the road-trip or in a codebase.
+      </p>
+    </div>
+
+    <div>
+      <p class="label">Education</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <p class="tl-date">2026 – 2028 (Ongoing)</p>
+          <h3>Computer Science (MS)</h3>
+          <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
+           WSB Merito University Wroclaw
+          </p>
+        </div>
+
+        <div class="tl-item">
+          <p class="tl-date">2021 – 2024</p>
+          <h3>Mechatronics (BS)</h3>
+          <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
+            Wroclaw University of Science and Technology
+          </p>
+        </div>
+
+        <div class="tl-item">
+          <p class="tl-date">2021 – 2024</p>
+          <h3>Mechatronics</h3>
+          <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
+            ZST no. 1 Rybnik
+          </p>
+
+        </div>
+        <div class="tl-item">
+          <p class="tl-date">20XX</p>
+          <h3>Certyfikat / kurs</h3>
+          <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
+            Platforma lub instytucja — np. CS50, freeCodeCamp, Coursera
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     03 · UMIEJĘTNOŚCI
+════════════════════════════════════════════ -->
+<section id="sec-skills" data-id="// 03 · skills" data-nav="skills">
+  <p class="label">technology stack</p>
+  <h2>What I <span class="accent2">know</span></h2>
+
+  <div class="skill-group">
+    <p class="skill-group-title">// Programming Languages</p>
+    <div class="tags">
+      <span class="tag known">C++</span>
+      <span class="tag known">C</span>
+      <span class="tag known">Python</span>
+      <span class="tag">Java</span>
+      <span class="tag">HTML/CSS</span>
+      <!-- dodaj / usuń tagi -->
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <p class="skill-group-title">// FRAMEWORKS & LIBRARIES</p>
+    <div class="tags">
+      <span class="tag known">React</span>
+      <span class="tag">Node.js</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">Django</span>
+      <!-- dodaj / usuń tagi -->
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <p class="skill-group-title">// TOOLS & OTHER</p>
+    <div class="tags">
+      <span class="tag known">Git</span>
+      <span class="tag known">Linux</span>
+      <span class="tag">Docker</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">REST API</span>
+      <!-- dodaj / usuń tagi -->
+    </div>
+  </div>
+
+  <div class="skill-group">
+    <p class="skill-group-title">// LEARNING</p>
+    <div class="tags">
+      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);">Rust</span>
+      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);">Kubernetes</span>
+      <!-- dodaj / usuń tagi -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     04 · PROJEKTY
+════════════════════════════════════════════ -->
+<section id="sec-projects" data-id="// 04 · projects" data-nav="projekty">
+  <p class="label">projekty</p>
+  <h2>Co <span class="accent3">zbudowałem</span></h2>
+
+  <div class="grid-2">
+
+    <div class="card project-card">
+      <p class="card-label">PROJECT_01</p>
+      <h3>Nazwa projektu</h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
+        Krótki opis — czym jest, jaki problem rozwiązuje, co ciekawego
+        w implementacji. Dwa–trzy zdania wystarczą.
+      </p>
+      <p class="proj-tech">python · fastapi · postgresql</p>
+      <a href="#" class="proj-link">→ GitHub</a>
+    </div>
+
+    <div class="card project-card">
+      <p class="card-label">PROJECT_02</p>
+      <h3>Nazwa projektu</h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
+        Opis projektu. Co Cię zmotywowało do jego zbudowania?
+        Jakie wyzwania napotkałeś?
+      </p>
+      <p class="proj-tech">javascript · react · firebase</p>
+      <a href="#" class="proj-link">→ GitHub / Live demo</a>
+    </div>
+
+    <div class="card project-card">
+      <p class="card-label">PROJECT_03</p>
+      <h3>Nazwa projektu</h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
+        Kolejny projekt. Nawet małe skrypty CLI czy automaty
+        są warte pokazania.
+      </p>
+      <p class="proj-tech">bash · python</p>
+      <a href="#" class="proj-link">→ GitHub</a>
+    </div>
+
+    <!-- Dodaj kolejne karty kopiując blok .card powyżej -->
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     05 · DOŚWIADCZENIE
+════════════════════════════════════════════ -->
+<section id="sec-exp" data-id="// 05 · experience" data-nav="exp">
+  <p class="label">experience</p>
+  <h2>Where I <span class="accent">performed</span></h2>
+
+  <div class="timeline" style="margin-top:2.5rem; max-width:680px;">
+
+    <!-- <div class="tl-item">
+      <p class="tl-date">miesiąc 20XX – teraz</p>
+      <h3>Stanowisko <span class="accent mono" style="font-size:.85rem;">@ Firma</span></h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.5rem;" class="placeholder">
+        Co robiłeś, jakiego stacku używałeś, co osiągnąłeś.
+        Jedna–dwie linijki per rola.
+      </p>
+    </div> -->
+
+    <div class="tl-item">
+      <p class="tl-date">July - August 2025</p>
+      <h3>Mechatronics Intern <span class="accent mono" style="font-size:.85rem;"> @ MikroEl</span></h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.5rem;" class="placeholder">
+        Embedded systems manual testing and software testing. Updating and uploading software.
+      </p>
+    </div>
+
+    <!-- Jeśli nie masz doświadczenia zawodowego usuń tę sekcję
+         lub zastąp ją wolontariatem / projektami studenckimi -->
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     06 · KONTAKT
+════════════════════════════════════════════ -->
+<section id="sec-contact" data-id="// 06 · contact" data-nav="kontakt">
+  <p class="label">contact</p>
+  <h2>Text <span class="accent2">me</span></h2>
+  <p style="max-width:520px; margin-top:1rem; color:var(--muted); font-size:.95rem;">
+    I am open for new opportunities, collaboration in open-source projects and technology conversations.
+  </p>
+
+  <div class="contact-grid">
+    <a href="mailto:twoj@email.com" class="contact-link">
+      <span class="contact-icon">✉</span>
+      <span>bartek.k2906@gmail.com</span>
+    </a>
+    <a href="https://github.com/BartoliniBartlomiej" class="contact-link" target="_blank" rel="noopener">
+      <span class="contact-icon">⌥</span>
+      <span>github / BartoliniBartlomiej</span>
+    </a>
+    <a href="https://www.linkedin.com/in/bartłomiej-kuś-994356218/" class="contact-link" target="_blank" rel="noopener">
+      <span class="contact-icon">◈</span>
+      <span>linkedin / bartłomiej-kuś</span>
+    </a>
+    <!-- Dodaj więcej linków: Twitter/X, Discord, CV PDF, itp. -->
+  </div>
+
+  <p style="margin-top:3rem; font-family:var(--font-mono); font-size:.65rem; color:var(--muted);">
+    &lt;/portfolio&gt; &nbsp;·&nbsp; built with plain HTML
+  </p>
+</section>
+
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+  (() => {
+    const sections = [...document.querySelectorAll('section[data-nav]')];
+    const dotsContainer = document.getElementById('nav-dots');
+
+    // Build dots
+    sections.forEach((sec, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.dataset.label = sec.dataset.nav;
+      dot.setAttribute('aria-label', `Sekcja: ${sec.dataset.nav}`);
+      dot.addEventListener('click', () => sec.scrollIntoView({ behavior: 'smooth' }));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = [...dotsContainer.querySelectorAll('.dot')];
+
+    // Intersection observer — highlight active dot
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const idx = sections.indexOf(entry.target);
+          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+      });
+    }, { threshold: 0.55 });
+
+    sections.forEach(s => observer.observe(s));
+  })();
+</script>
+
+</body>
+</html>
