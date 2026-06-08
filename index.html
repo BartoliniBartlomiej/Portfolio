@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&family=Inconsolata:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap" rel="stylesheet" />
 
   <style>
     /* ── RESET & BASE ── */
@@ -22,7 +23,7 @@
       --accent2:   #ff3e6c;
       --accent3:   #ffe44d;
       --text:      #c8d0e0;
-      --muted:     #4a5270;
+      --muted:     #525872;
       --white:     #eef1f8;
 
       --font-mono: 'Share Tech Mono', monospace;
@@ -382,7 +383,7 @@
     .project-card .proj-link:hover { border-color: var(--accent2); }
 
     /* ── TIMELINE (experience / edu) ── */
-    .timeline { position: relative; margin-top: 2rem; padding-left: 1.5rem; }
+    .timeline { position: relative; margin-top: 2rem; padding-left: 1.7rem; }
     .timeline::before {
       content: '';
       position: absolute;
@@ -461,6 +462,14 @@
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .hero-sep {
+      color: var(--accent);
+      font-family: 'Nunito', 'Trebuchet MS', sans-serif;
+      font-weight: 800;
+      font-size: 100px;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
@@ -479,7 +488,7 @@
   <p class="hero-pre">&gt; hello_world.exe</p>
 
   <h1>
-    <span class="glitch" data-text="TWOJE_IMIĘ">Bartłomiej_Kuś</span>
+    <span class="glitch" data-text="Bartłomiej::Kuś">Bartłomiej<span class="hero-sep">::</span>Kuś</span>
   </h1>
   <h1 style="font-size:clamp(1.8rem,4vw,3.2rem); font-weight:400; color:var(--muted); margin-top:.4rem;">
     <span class="accent">//</span> junior developer
@@ -532,7 +541,7 @@
     </div>
 
     <div>
-      <p class="label">Education</p>
+      <p class="label">Education & Certificates</p>
       <div class="timeline">
         <div class="tl-item">
           <p class="tl-date">2026 – 2028 (Ongoing)</p>
@@ -543,7 +552,7 @@
         </div>
 
         <div class="tl-item">
-          <p class="tl-date">2021 – 2024</p>
+          <p class="tl-date">2022 – 2026</p>
           <h3>Mechatronics (BS)</h3>
           <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
             Wroclaw University of Science and Technology
@@ -552,17 +561,24 @@
 
         <div class="tl-item">
           <p class="tl-date">2021 – 2024</p>
-          <h3>Mechatronics</h3>
+          <h3>Mechatronics (Technician Diploma)</h3>
           <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
             ZST no. 1 Rybnik
           </p>
 
         </div>
         <div class="tl-item">
-          <p class="tl-date">20XX</p>
-          <h3>Certyfikat / kurs</h3>
+          <p class="tl-date">2025</p>
+          <h3>SQL Basics</h3>
           <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
-            Platforma lub instytucja — np. CS50, freeCodeCamp, Coursera
+            LearnSQL
+          </p>
+        </div>
+        <div class="tl-item">
+          <p class="tl-date">2023</p>
+          <h3>Skills of Tomorrow</h3>
+          <p style="font-size:.85rem; color:var(--muted); margin-top:.3rem;">
+            Google
           </p>
         </div>
       </div>
@@ -585,6 +601,7 @@
       <span class="tag known">C</span>
       <span class="tag known">Python</span>
       <span class="tag">Java</span>
+      <span class="tag">Swift</span>
       <span class="tag">HTML/CSS</span>
       <!-- dodaj / usuń tagi -->
     </div>
@@ -593,10 +610,14 @@
   <div class="skill-group">
     <p class="skill-group-title">// FRAMEWORKS & LIBRARIES</p>
     <div class="tags">
-      <span class="tag known">React</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">FastAPI</span>
-      <span class="tag">Django</span>
+      <span class="tag known">STL</span>
+      <span class="tag known">CMAKE</span>
+      <span class="tag known">Google Test</span>
+      <span class="tag">SFML</span>
+      <span class="tag">Matplotlib</span>
+      <span class="tag">Numpy</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">Scikit-Learn</span>
       <!-- dodaj / usuń tagi -->
     </div>
   </div>
@@ -604,11 +625,15 @@
   <div class="skill-group">
     <p class="skill-group-title">// TOOLS & OTHER</p>
     <div class="tags">
-      <span class="tag known">Git</span>
-      <span class="tag known">Linux</span>
-      <span class="tag">Docker</span>
+      <span class="tag known">Git & github</span>
+      <span class="tag known">github actions</span>
+      <span class="tag known">Linux/Unix</span>
+      <span class="tag known">CLI</span>
+      <span class="tag known">SQL</span>
       <span class="tag">PostgreSQL</span>
-      <span class="tag">REST API</span>
+      <span class="tag">SQLite</span>
+      <span class="tag">Azure DevOps</span>
+      <span class="tag">Doxygen</span>
       <!-- dodaj / usuń tagi -->
     </div>
   </div>
@@ -616,8 +641,8 @@
   <div class="skill-group">
     <p class="skill-group-title">// LEARNING</p>
     <div class="tags">
-      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);">Rust</span>
-      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);">Kubernetes</span>
+      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);">Docker</span>
+      <span class="tag" style="border-color:var(--accent3); color:var(--accent3);"></span>
       <!-- dodaj / usuń tagi -->
     </div>
   </div>
@@ -628,30 +653,48 @@
      04 · PROJEKTY
 ════════════════════════════════════════════ -->
 <section id="sec-projects" data-id="// 04 · projects" data-nav="projekty">
-  <p class="label">projekty</p>
-  <h2>Co <span class="accent3">zbudowałem</span></h2>
+  <p class="label">projects</p>
+  <h2>What I have<span class="accent3"> built</span></h2>
+
+  <div class="grid-1">
+    <div class="card project-card">
+      <p class="card-label">ENGINEERING THESIS</p>
+      <h3>Data Analisys & Visualisation</h3>
+      <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
+      Measured two electromagnetic field values across 250+ spatial points (≈5×5×5 m volume), data cleaning, dealing with outliers, averaging 
+readings per point for improved accuracy; processed and visualised the full dataset as 2D/3D surface maps.
+<br>• Measurement planning (spatial and temporal sampling), configuration of the embedded datalogger (to
+streamline subsequent data processing), and execution of measurements
+<br>• Processing and cleaning complex geospatial datasets of 250+ measurements using Python
+<br>• Data transformation pipelines with Numpy and Pandas
+<br>• Generating plots and 2D/3D surfaces and heat maps using Matplotlib; delivering visualisations as
+actionable analytical output
+      </p>
+      <p class="proj-tech">Python · Pandas · Numpy · Matplotlib </p>
+    </div>
 
   <div class="grid-2">
-
     <div class="card project-card">
       <p class="card-label">PROJECT_01</p>
-      <h3>Nazwa projektu</h3>
+      <h3>PID Library</h3>
       <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
-        Krótki opis — czym jest, jaki problem rozwiązuje, co ciekawego
-        w implementacji. Dwa–trzy zdania wystarczą.
+        Header-only C++ library, providing PID controller interfaces with professional documentation. 
+        Implemented automated unit tests using Google Test and integrated them into a CI pipeline with GitHub Actions.
+        
       </p>
-      <p class="proj-tech">python · fastapi · postgresql</p>
-      <a href="#" class="proj-link">→ GitHub</a>
+      <p class="proj-tech">C++ · CMAKE · Google Tests · CI · Doxygen </p>
+      <a href="https://github.com/BartoliniBartlomiej/PID-Library" class="proj-link">→ GitHub</a>
     </div>
 
     <div class="card project-card">
       <p class="card-label">PROJECT_02</p>
-      <h3>Nazwa projektu</h3>
+      <h3>Spacecraft Autopilot</h3>
       <p style="font-size:.88rem; color:var(--muted); margin-top:.4rem;">
-        Opis projektu. Co Cię zmotywowało do jego zbudowania?
-        Jakie wyzwania napotkałeś?
+        Developed a modular 2D spacecraft landing simulator in C++20
+        featuring an RK4-integrated physics engine and a dual-axis PID autopilot. Implemented a clean, extensible
+        architecture with SFML visualization, GoogleTest coverage, and automated CI pipelines.
       </p>
-      <p class="proj-tech">javascript · react · firebase</p>
+      <p class="proj-tech">C++ · CMAKE · Google Tests · CI · SFML</p>
       <a href="#" class="proj-link">→ GitHub / Live demo</a>
     </div>
 
@@ -669,6 +712,11 @@
     <!-- Dodaj kolejne karty kopiując blok .card powyżej -->
 
   </div>
+  </div>
+
+  </div>
+
+    
 </section>
 
 
